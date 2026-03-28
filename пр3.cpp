@@ -115,9 +115,7 @@ int main()
     setlocale(LC_ALL, "Russian");
     int funcSelect;
     cin >> funcSelect;
-    for (;;)
-    {
-
+    for (;;){
         if (funcSelect == 0) break; 
         switch (funcSelect) 
         {
