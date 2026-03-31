@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include <string>
 #include <cmath>
 
@@ -30,29 +31,29 @@ int EnterNumber(string label) {
 }
 
 void task1() {
-    int M =  EnterNumber("Введите значение M:");
-    int N =  EnterNumber("Введите значение N:\n");
-    cin >> N;
+    cout << "\n Номер 1";
+    int M =  EnterNumber("Введите значение M: ");
+    int N =  EnterNumber("Введите значение N: ");
     if (M%2==1){M++;}
     if (M>N){
-      cout << "ошибка \n";
-    }
+      cout << "ошибка \n";}
     else{
       while (M<=N){
-          cout << M << " ";
-          M+=2;
-      }
+          cout << M << " " ;
+          M+=2;}
     }
+    cout << endl;
 
 }
 
 void task2(){
-    int n = EnterNumber("Введите значение n:\n");
+    cout << "\n Номер 2";
+    int n = EnterNumber("Введите значение n: ");
     int sum;
     int a;
     
     for (int i = 1; i <= n; i++) {
-        cin >> a;
+        int a = EnterNumber("Введите слогаемое a: ");
         
         if (i == 1 || i == 2) {sum += a;}
         else {
@@ -64,19 +65,21 @@ void task2(){
 }
 
 void task3(){
-    int start = EnterNumber("");
-    int end  = EnterNumber("");
-    int shag  = EnterNumber("");
+    cout << "\n Номер 3";
+    int start = EnterNumber("Введите начальный элемент ");
+    int end  = EnterNumber("Введите конечный элемент ");
+    int shag  = EnterNumber("Введите шаг ");
 
     double F;
     cout << "x   F "<< endl;
   for (int i = start; i <= end; i += shag) {
         F = (81 * log(9))/(log(i*i - 4*i + 2));
-        cout << i << "  " << F << endl;
-    }
+        cout << i << "  " << F << endl;}
+    
 }
 
 void task4(){
+    cout << "\n Номер 4\n";
     double F = 0;  
     
     for (int i = 1000; i >= 1; i--) {  
@@ -96,6 +99,7 @@ void task4(){
 }
 
 void task5(){
+    cout << "\n Номер 5";
     int a = EnterNumber("");
     int k=0;
 
@@ -112,13 +116,12 @@ void task5(){
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-    int funcSelect;
-    cin >> funcSelect;
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+    int funcSelect = EnterNumber("Введите номер задания: ");
     for (;;){
         if (funcSelect == 0) break; 
-        switch (funcSelect) 
-        {
+        switch (funcSelect) {
             case 1: task1(); break;
             case 2: task2(); break;
             case 3: task3(); break;
@@ -126,8 +129,12 @@ int main()
             case 5: task5(); break;
             default:
                 cout << "Ошибка: выберите номер от 1 до 5 или 0 для выхода." << endl;
-                break;
-        }
+                break;}
+        cout << "\n Введите номер следующего задания (0 для выхода): ";
+        cin >> funcSelect;
+        cin.ignore();
+        
     }
+    system("pause");
     return 0;
 }
