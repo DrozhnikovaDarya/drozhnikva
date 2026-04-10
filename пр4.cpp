@@ -44,20 +44,22 @@ void task1(){
 
     for (int i = 0; i < n; i++) {
         double t1, t2;
-        cout << "Введите координаты точки: ";
+        cout << "Введите координаты точки (через пробел): ";
         cin >> t1 >> t2; 
         x[i] = t1;
         y[i] = t2;
         t = t1*t1 + t2*t2;
         d[i] = t;
         if (t > T){ T = t; k = i;}}
+
     cout << "Все точки:" << endl;
-    for (int i = 0; i < n; i++) {
-        cout << "(" << x[i] << "; " << y[i] << ") растояние в квадрате: " << d[i] << endl;}
+    for (int i=0; i<n; i++) {
+                cout << "(" << x[i] << "; " << y[i] << ") растояние в квадрате: " << d[i] << endl;}
+
     cout << "Максималное растояние от центра  точки (" << x[k] << "; " << y[k] << ") оно равно " << d[k] << endl;
 }
 void task2(){
-    int a = EnterNumber("Введите длинн массива: ");
+    int a = EnterNumber("Введите длинну массива: ");
     int t;
     int B[a] = {0};
     B[0] = 0;
@@ -66,7 +68,7 @@ void task2(){
         t = (B[i-2] + B[i-1]);
         B[i] = t;}
 
-    for (int i =0; i<a; i++){
+    for (int i = 0; i<a; i++){
         cout << B[i] << " ";}
 }
 void task3(){
@@ -86,10 +88,19 @@ void task3(){
     }
     cout << endl;
 
-    int index = 0;
-    for (int i = 0; i < count1; i++) N[index++] = 1;
-    for (int i = 0; i < count2; i++) N[index++] = 2;
-    for (int i = 0; i < count0; i++) N[index++] = 0;
+    int K0 = 0, K1 = 0, K2 = 0;
+    int t = 0; 
+    while (t < n){
+        if (N[t] == 0) K0++;
+        if (N[t] == 1) K1++;
+        if (N[t] == 2) K2++;
+        t++;}
+    t = 0;
+    while (t<n){
+        while (K1 != 0){N[t] = 1; K1--; t++;}
+        while (K2 != 0){N[t] = 2; K2--; t++;}
+        while (K0 != 0){N[t] = 0; K0--; t++;}
+    }
 
     cout << "Отсортированный массив (1, 2, 0): ";
     for (int i = 0; i < n; i++) {
