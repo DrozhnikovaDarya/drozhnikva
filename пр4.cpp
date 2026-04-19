@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -30,8 +31,7 @@ int EnterNumber(string label) {
         getline(cin, raw_input);
     }
 
-    return stoi(raw_input); 
-}
+    return stoi(raw_input); }
 
 void task1(){
     int n = EnterNumber( "Введите кол-во точек: ");
@@ -109,25 +109,50 @@ void task3(){
     cout << endl;
 }
 
-int main()
-{
+
+struct MenuItem {
+    string title;
+    void (*action)();};
+
+
+int main() {
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
-    int funcSelect = EnterNumber("Введите номер задания: ");
-    for (;;){
-        if (funcSelect == 0) break; 
-        switch (funcSelect) {
-            case 1: task1(); break;
-            case 2: task2(); break;
-            case 3: task3(); break;
-            default:
-                cout << "Ошибка: выберите номер от 1 до 5 или 0 для выхода." << endl;
-                break;}
-        cout << "\n Введите номер следующего задания (0 для выхода): ";
-        cin >> funcSelect;
-        cin.ignore();
-        
+    srand(time(0));
+
+    map<int, MenuItem> menu = {
+        {1, {"1", task1}},
+        {2, {"2", task2}},
+        {3, {"3", task3}}, 
+    };
+
+    int choice = 0;
+        while (true) {
+        cout << "\nМеню:" << endl;
+
+        for (const auto& item : menu) {
+            cout << "Task " << item.first << ". " << item.second.title << endl;
+        }
+
+        cout << "0. Выход" << endl;
+        // cin.ignore();
+
+        choice = EnterNumber("Введите номер задания: ");
+
+        if (choice == 0) {
+            cout << "© 2026 FIO" << endl;
+            break;
+        }
+
+        cout << endl;
+
+        if (menu.find(choice) != menu.end()) {
+            menu[choice].action();
+        } else {
+            cout << "Некорректный ввод.";
+        }
+
+        cout << endl;
     }
-    system("pause");
     return 0;
 }
