@@ -1,0 +1,146 @@
+#include <iostream>
+#include <windows.h>
+#include <string>
+#include <sstream>
+#include <cmath>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+
+bool UserInput(string input) {
+    if (input.empty()) return false; 
+
+    try {
+        size_t pos;
+        stoi(input, &pos); 
+        return pos == input.length();
+    }
+    catch (...) { 
+        return false; 
+    }
+}
+
+int EnterNumber(string label) {
+    string raw_input;
+    cout << endl << label << "";
+    getline(cin, raw_input); 
+    while (!UserInput(raw_input)) { 
+        cout << label << "";
+        getline(cin, raw_input);
+    }
+
+    return stoi(raw_input); }
+
+void task1(){
+    int a = EnterNumber("Введите кол-во строк квадратной матрицы матницы: ");
+    int N[a][a];
+    int max = 0;
+    memset(N, 0, sizeof(N));
+
+    for (int i = 0; i < a; ++i) {
+    cout << "Введите строку №" << i + 1 << " (" << a << " чисел через пробел): ";
+    for (int j = 0; j < a; ++j) {
+        cin >> N[i][j];}}
+
+    for (int i = 0; i < a; ++i) {
+        for (int j = 0; j < a; ++j) {
+            cout << N[i][j] << " ";}
+    cout << endl;}
+
+    for (int i = 0; i<a; ++i){
+        if (N[i][i] > max){
+            max = N[i][i];}}
+    cout << "Максимальное число на главной диагонали: " << max << endl;
+}
+
+void task2(){
+    int a = EnterNumber("Введите номер правила, по которому создастся матррица: ");
+    int n = EnterNumber("Введите кол-во строк квадратной матрицы матницы: ");
+
+    int N[n][n];
+    memset(N, 0, sizeof(N));
+
+    if (a == 1){
+        int d = EnterNumber("Введите первое число матрицы: ");
+        for (int i = 0; i<n; ++i){
+            for (int j = 0; j < n; ++j) {
+                if (i==j){N[i][j] = (d+i);}
+                else{N[i][j] = d;}}
+        }}
+
+    if (a == 2){
+        int d = EnterNumber("Введите первое число матрицы: ");
+        int e = d;
+        for (int i = 0; i<n; ++i){
+            for (int j = 0; j < n; ++j) {
+                if (j<=i){N[i][j] = d; d++;}
+                else{N[i][j] = e;}}
+        }}
+    
+    if (a == 3){
+        int d = EnterNumber("Введите первое число матрицы: ");
+        int e = d;
+        for (int i = 0; i<n; ++i){
+            for (int j = 0; j < n; ++j) {
+                N[i][j] = d;
+                d++;
+        }}}
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cout << N[i][j] << " ";}
+    cout << endl;}
+}
+
+void task3(){
+}
+
+struct MenuItem {
+    string title;
+    void (*action)();};
+
+
+int main() {
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+    srand(time(0));
+
+    map<int, MenuItem> menu = {
+        {1, {"Task 1", task1}},
+        {2, {"Task 2", task2}},
+        {3, {"Task 3", task3}},
+    };
+
+    int choice = 0;
+        while (true) {
+        cout << "\nМеню:" << endl;
+
+        for (const auto& item : menu) {
+            cout << "Task " << item.first << ". " << item.second.title << endl;
+        }
+
+        cout << "0. Выход" << endl;
+        // cin.ignore();
+
+        choice = EnterNumber("Введите номер задания: ");
+
+        if (choice == 0) {
+            cout << "© 2026 FIO" << endl;
+            break;
+        }
+
+        cout << endl;
+
+        if (menu.find(choice) != menu.end()) {
+            menu[choice].action();
+        } else {
+            cout << "Некорректный ввод.";
+        }
+
+        cout << endl;
+    }
+    return 0;
+}
+
