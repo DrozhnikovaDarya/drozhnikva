@@ -1,0 +1,204 @@
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <map>
+#include <algorithm>
+#include <windows.h>
+#include <cctype>
+using namespace std;
+
+bool UserInput(string input) {
+    if (input.empty()) return false; 
+
+    try {
+        size_t pos;
+        stoi(input, &pos); 
+        return pos == input.length();
+    }
+    catch (...) { 
+        return false; 
+    }
+}
+
+int EnterNumber(string label) {
+    string raw_input;
+    cout << endl << label << "";
+    getline(cin, raw_input); 
+    while (!UserInput(raw_input)) { 
+        cout << label << "";
+        getline(cin, raw_input);
+    }
+    return stoi(raw_input); }
+
+// Функция проверки корректности ввода непустой строки типа string
+bool UserInputStr(string input) {
+    input.erase(remove_if(input.begin(), input.end(), ::isspace), input.end());
+    return !input.empty(); 
+}
+
+// Функция ввода строки с повторением запроса до корректного ввода
+string EnterString(string label) {
+    string raw_input;
+    cout << label;
+    getline(cin, raw_input);
+
+    while (!UserInputStr(raw_input)) {
+        cout << label;
+        getline(cin, raw_input);
+    }
+    return raw_input;
+}
+
+// Функция проверки корректности ввода непустой строки типа char[]
+bool UserInputArrChar(const char str[]) {
+    const char *p = str;
+    while (*p != '\0') {
+        if (*p++ != ' ') return true;
+    }
+    return false;
+}
+
+void EnterArrChar(const char label[], char output[], size_t size) {
+    cout << label;
+    cin.getline(output, size);
+
+    while (!UserInputArrChar(output)) {
+        cout << label;
+        cin.getline(output, size);
+    }
+}
+
+
+struct MenuItem {
+    string title;
+    void (*action)();
+};
+
+
+
+void task1(){
+    //const int MAX = 1000;
+    //char str[MAX];
+    //EnterArrChar("Введите исходную строку: ", str, MAX);
+
+    string str = EnterString("Введите исходную строку: ");
+    bool found = false;
+
+    cout << "Индексы знаков препинания: ";
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == '.' || str[i] == ',' || str[i] == '!' || str[i] == '?' ||
+    str[i] == ';' || str[i] == ':' || str[i] == '-' || str[i] == '(' ||
+    str[i] == ')' || str[i] == '"' || str[i] == '\'' || str[i] == ' ' ||
+    str[i] == '[' || str[i] == ']' || str[i] == '{' || str[i] == '}' ||
+    str[i] == '<' || str[i] == '>' || str[i] == '/' || str[i] == '\\') {
+            cout << i << " ";
+            found = true;}}
+    if (!found) {
+        cout << -1;}
+    cout << endl;
+}
+
+void task2(){
+    string A = EnterString("Введите исходную строку: ");
+    
+    cout << "Строка без нижнего реигстра: \n";
+    for (int i =0; A[i] != '\0'; i++){
+        if (not(islower(A[i]))){
+            cout << A[i];
+        }}}
+
+void task3(){
+    //const int MAX = 1000;
+    //char A[MAX];
+    //EnterArrChar("Введите исходную строку: ", A, MAX);
+
+    string A = EnterString("Введите исходную строку: ");
+    int len = 0;
+    while (A[len] != '\0') {
+        len++;}
+
+    int K = 1;
+
+    for (int i = 0; i<len; i++){
+        for (int t = len-1; t>0; t--){
+            if (A[i] != A[len - 1 - i]) {
+            K = 0;  
+            break;}
+        }
+    }
+    if (K==1) cout << "\nЯвляется полином\n";
+    else cout << "\nНе является полином\n";
+}
+
+void task4(){
+    string A = EnterString("Введите исходную строку: ");
+    size_t len = A.length();
+    string word;
+
+    A += " "; 
+
+    for (int i = 0; i < A.length(); i++) {
+        if (A[i] != ' ') {
+            word += A[i]; 
+        } else {
+            if (word.length() == 3) {
+                cout << word << endl;
+            }
+            word = ""; 
+        }
+    }
+}
+
+void task5(){
+}
+
+void task6(){
+
+
+}
+
+
+int main() {
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+    srand(time(0));
+
+    map<int, MenuItem> menu = {
+        {1, {"Task 1", task1}},
+        {2, {"Task 2", task2}},
+        {3, {"Task 3", task3}},
+        {4, {"Task 4", task4}},
+        {5, {"Task 5", task5}},
+        {6, {"Task 6", task6}},
+    };
+
+    int choice = 0;
+
+    while (true) {
+        cout << "\nМеню:\n";
+
+        for (const auto& item : menu) {
+            cout << "Task " << item.first << ". "
+                 << item.second.title << endl;
+        }
+
+        cout << "0. Выход\n";
+
+        choice = EnterNumber("Введите номер задания: ");
+
+        cin.ignore(10000, '\n');
+        
+        if (choice == 0) {
+            cout << "© 2024 FIO\n"; 
+            break;
+        }
+
+        if (menu.find(choice) != menu.end()) {
+            menu[choice].action();
+        } else {
+            cout << "Некорректный ввод.";
+        }
+    }
+
+    return 0;
+}
